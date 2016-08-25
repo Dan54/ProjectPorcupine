@@ -58,7 +58,6 @@ public class EventAction : IXmlSerializable
         Register(name, functionName);
     }
 
-
     public XmlSchema GetSchema()
     {
         return null;

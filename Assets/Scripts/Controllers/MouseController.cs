@@ -39,7 +39,7 @@ public class MouseController
     // Ìs panning the camera
     private bool isPanning = false;
     private float zoomTarget;
-	
+    
     private MouseMode currentMode = MouseMode.SELECT;
 
     // Use this for initialization.
@@ -503,7 +503,7 @@ public class MouseController
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0)
         {
-            zoomTarget = Camera.main.orthographicSize - Settings.getSettingAsFloat("ZoomSensitivity", 3) * (Camera.main.orthographicSize * Input.GetAxis("Mouse ScrollWheel"));
+			zoomTarget = Camera.main.orthographicSize - (Settings.getSettingAsFloat("ZoomSensitivity", 3) * (Camera.main.orthographicSize * Input.GetAxis("Mouse ScrollWheel")));
         }
 
         if (Camera.main.orthographicSize != zoomTarget)
