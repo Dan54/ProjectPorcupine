@@ -26,7 +26,6 @@ public class TileSpriteController
 
     public void Render() {
         GameObject tileParent = new GameObject("Tiles");
-		Debug.Log (world != null);
         // Instantiate our dictionary that tracks which GameObject is rendering which Tile data.
         tileGameObjectMap = new Dictionary<Tile, GameObject>();
 

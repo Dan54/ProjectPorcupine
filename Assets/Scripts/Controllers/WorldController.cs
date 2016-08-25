@@ -90,7 +90,6 @@ public class WorldController : MonoBehaviour
 
     void Start() {
         GameObject go;
-		Debug.Log ("Start");
 		if (world == null)
 		{
 			CreateEmptyWorld ();
@@ -106,7 +105,6 @@ public class WorldController : MonoBehaviour
         {
             spawnInventoryController = new SpawnInventoryController();
         }
-		Debug.Log ("Start2");
         mouseController = new MouseController(buildModeController, furnitureSpriteController, circleCursorPrefab);
         keyboardController = new KeyboardController(buildModeController, Instance);
 

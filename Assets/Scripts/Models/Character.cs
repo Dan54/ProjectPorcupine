@@ -200,14 +200,25 @@ public class Character : IXmlSerializable, ISelectable, IContextActionProvider
         Need need = null;
         foreach (Need n in needs)
         {
-            if (n.Amount > needPercent)
+			if (n.Amount > needPercent && n.NearestRefill() != null)
             {
                 need = n;
                 needPercent = n.Amount;
             }
         }
-        if (needPercent > 50 && needPercent < 100 && need != null)
-            myJob = new Job (null, need.restoreNeedFurn.objectType, need.CompleteJobNorm, need.restoreNeedTime, null, Job.JobPriority.High, false, true, false);
+		if (needPercent > 50 && needPercent < 100 && need != null)
+			myJob = need.NearestRefill ();
+		if (need == null)
+		{
+			foreach (Need n in needs)
+			{
+				if (n.Amount == 100)
+				{
+					need = n;
+					needPercent = n.Amount;
+				}
+			}
+		}
         if (needPercent == 100 && need != null && need.completeOnFail)
             myJob = new Job (CurrTile, null, need.CompleteJobCrit, need.restoreNeedTime*10, null, Job.JobPriority.High, false, true, true);
         // Get the first job on the queue.
@@ -257,7 +268,7 @@ public class Character : IXmlSerializable, ISelectable, IContextActionProvider
         // final location can be reached.
         Profiler.BeginSample("PathGeneration");
         if (myJob.isNeed)
-            pathAStar = new Path_AStar (World.current, CurrTile, DestTile, need.restoreNeedFurn.objectType, 0, false, true);    // This will calculate a path from curr to dest.
+			pathAStar = new Path_AStar (World.current, CurrTile, DestTile, myJob.jobObjectType, 0, false, true);    // This will calculate a path from curr to dest.
         else
             pathAStar = new Path_AStar (World.current, CurrTile, DestTile);
         Profiler.EndSample();

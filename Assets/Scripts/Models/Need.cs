@@ -23,7 +23,7 @@ public class Need {
     }
     protected bool highToLow = true;
     public Character character;
-    public Furniture restoreNeedFurn { get; protected set; }
+	public string[] restoreNeedFurn { get; protected set; }
     public float restoreNeedTime { get; protected set; }
     protected float restoreNeedAmount = 100;
     public string DisplayAmount
@@ -100,6 +100,7 @@ public class Need {
 
         XmlReader reader = reader_parent.ReadSubtree();
         List<string> luaActions = new List<string> ();
+		List<string> restoreFurn = new List<string> ();
 
         while (reader.Read())
         {
@@ -111,7 +112,7 @@ public class Need {
                 break;
             case "RestoreNeedFurnitureType":
                 reader.Read();
-                restoreNeedFurn = World.current.furniturePrototypes[reader.ReadContentAsString()];
+				restoreFurn.Add(World.current.furniturePrototypes[reader.ReadContentAsString()]);
                 break;
             case "RestoreNeedTime":
                 reader.Read();
@@ -155,6 +156,7 @@ public class Need {
             }
         }
         luaUpdate = luaActions.ToArray();
+		restoreNeedFurn = restoreFurn.ToArray ();
     }
 
     public void CompleteJobNorm (Job j)
@@ -169,4 +171,18 @@ public class Need {
     {
         return new Need(this);
     }
+	public Job NearestRefill()
+	{
+		int length = Mathf.Infinity;
+		Job best;
+		foreach (string obj in restoreNeedFurn)
+		{
+			Path_AStar path = new Path_AStar (World.current, character.CurrTile, null, obj, 0, false, true);
+			if (path.Length < length)
+			{
+				length = path.Length;
+				best = new Job (path.EndTile (), obj, CompleteJobNorm, restoreNeedTime, null, Job.JobPriority.High, false, true, false);
+			}
+		}
+	}
 }

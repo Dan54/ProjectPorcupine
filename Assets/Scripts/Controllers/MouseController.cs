@@ -45,7 +45,6 @@ public class MouseController
     // Use this for initialization.
     public MouseController(BuildModeController buildModeController, FurnitureSpriteController furnitureSpriteController, GameObject cursorObject)
     {
-		Debug.Log ("MouseController");
         bmc = buildModeController;
         bmc.SetMouseController(this);
         circleCursorPrefab = cursorObject;
@@ -56,7 +55,6 @@ public class MouseController
         cursorParent = new GameObject("Cursor");
         mouseCursor = new MouseCursor(this, bmc);
         furnitureParent = new GameObject("Furniture Preview Sprites");
-		Debug.Log ("MouseController created");
     }
 
     public enum MouseMode
