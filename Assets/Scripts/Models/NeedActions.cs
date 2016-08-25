@@ -41,6 +41,7 @@ public class NeedActions
 
     public static void AddScript(string rawLuaCode)
     {
+		Debug.Log ("need action" + (_Instance == null));
         _Instance.myLuaScript.DoString(rawLuaCode);
     }
     
