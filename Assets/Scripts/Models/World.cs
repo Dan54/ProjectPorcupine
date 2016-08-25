@@ -326,6 +326,9 @@ public class World : IXmlSerializable
     void CreateNeedPrototypes()
     {
         needPrototypes = new Dictionary<string, Need>();
+		string luaFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, "LUA");
+		luaFilePath = System.IO.Path.Combine(luaFilePath, "Need.lua");
+		LoadNeedLua(luaFilePath);
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "Data");
         filePath = System.IO.Path.Combine(filePath, "Need.xml");
         string needXmlText = System.IO.File.ReadAllText(filePath);
